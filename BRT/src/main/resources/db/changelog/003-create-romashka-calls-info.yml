@@ -1,0 +1,39 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003-create-romashka-calls-info
+      author: anger
+      changes:
+        - createTable:
+            tableName: romashka_calls_info
+            columns:
+              - column:
+                  name: romashka_call_id
+                  type: SERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: caller
+                  type: varchar(12)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: receiver
+                  type: varchar(12)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: start_time
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: end_time
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: call_type
+                  type: varchar(2)
+                  constraints:
+                    nullable: false

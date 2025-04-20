@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-romashka-subscribers-table
+      author: anger
+      changes:
+        - createTable:
+            tableName: romashka_subscribers
+            columns:
+              - column:
+                  name: romashka_subscriber_id
+                  type: INTEGER
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: balance
+                  type: NUMERIC(38,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: full_name
+                  type: VARCHAR(255)
+              - column:
+                  name: last_sync
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: registration_date
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: tariff_id
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+              - column:
+                  name: msisdn
+                  type: VARCHAR(12)
+                  constraints:
+                    nullable: false

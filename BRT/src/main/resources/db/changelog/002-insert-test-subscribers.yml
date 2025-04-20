@@ -1,0 +1,104 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-insert-test-subscribers
+      author: anger
+      changes:
+        - insert:
+            tableName: romashka_subscribers
+            columns:
+              - column: { name: balance, valueNumeric: 100.00 }
+              - column: { name: full_name, value: 'Test User 1' }
+              - column: { name: last_sync, valueDate: '2024-12-01T00:00:00' }
+              - column: { name: registration_date, valueDate: '2023-11-12T00:00:00' }
+              - column: { name: tariff_id, valueNumeric: 1 }
+              - column: { name: msisdn, value: '+79111234567' }
+
+        - insert:
+            tableName: romashka_subscribers
+            columns:
+              - column: { name: balance, valueNumeric: 120.00 }
+              - column: { name: full_name, value: 'Test User 2' }
+              - column: { name: last_sync, valueDate: '2024-12-01T00:00:00' }
+              - column: { name: registration_date, valueDate: '2023-10-15T00:00:00' }
+              - column: { name: tariff_id, valueNumeric: 1 }
+              - column: { name: msisdn, value: '+79111234568' }
+
+        - insert:
+            tableName: romashka_subscribers
+            columns:
+              - column: { name: balance, valueNumeric: 90.00 }
+              - column: { name: full_name, value: 'Test User 3' }
+              - column: { name: last_sync, valueDate: '2024-12-01T00:00:00' }
+              - column: { name: registration_date, valueDate: '2023-06-07T00:00:00' }
+              - column: { name: tariff_id, valueNumeric: 2 }
+              - column: { name: msisdn, value: '+79111234569' }
+
+        - insert:
+            tableName: romashka_subscribers
+            columns:
+              - column: { name: balance, valueNumeric: 80.00 }
+              - column: { name: full_name, value: 'Test User 4' }
+              - column: { name: last_sync, valueDate: '2024-12-01T00:00:00' }
+              - column: { name: registration_date, valueDate: '2023-05-04T10:40:00' }
+              - column: { name: tariff_id, valueNumeric: 2 }
+              - column: { name: msisdn, value: '+79111234570' }
+
+        - insert:
+            tableName: romashka_subscribers
+            columns:
+              - column: { name: balance, valueNumeric: 75.00 }
+              - column: { name: full_name, value: 'Test User 5' }
+              - column: { name: last_sync, valueDate: '2024-12-01T00:00:00' }
+              - column: { name: registration_date, valueDate: '2023-03-02T12:00:00' }
+              - column: { name: tariff_id, valueNumeric: 3 }
+              - column: { name: msisdn, value: '+79111234571' }
+
+        - insert:
+            tableName: romashka_subscribers
+            columns:
+              - column: { name: balance, valueNumeric: 150.00 }
+              - column: { name: full_name, value: 'Test User 6' }
+              - column: { name: last_sync, valueDate: '2024-12-01T00:00:00' }
+              - column: { name: registration_date, valueDate: '2023-09-16T00:00:00' }
+              - column: { name: tariff_id, valueNumeric: 3 }
+              - column: { name: msisdn, value: '+79111234572' }
+
+        - insert:
+            tableName: romashka_subscribers
+            columns:
+              - column: { name: balance, valueNumeric: 110.00 }
+              - column: { name: full_name, value: 'Test User 7' }
+              - column: { name: last_sync, valueDate: '2024-12-01T00:00:00' }
+              - column: { name: registration_date, valueDate: '2023-04-05T00:00:00' }
+              - column: { name: tariff_id, valueNumeric: 1 }
+              - column: { name: msisdn, value: '+79111234573' }
+
+        - insert:
+            tableName: romashka_subscribers
+            columns:
+              - column: { name: balance, valueNumeric: 60.00 }
+              - column: { name: full_name, value: 'Test User 8' }
+              - column: { name: last_sync, valueDate: '2024-12-01T00:00:00' }
+              - column: { name: registration_date, valueDate: '2023-03-02T00:00:00' }
+              - column: { name: tariff_id, valueNumeric: 2 }
+              - column: { name: msisdn, value: '+79111234574' }
+
+        - insert:
+            tableName: romashka_subscribers
+            columns:
+              - column: { name: balance, valueNumeric: 95.00 }
+              - column: { name: full_name, value: 'Test User 9' }
+              - column: { name: last_sync, valueDate: '2024-12-01T00:00:00' }
+              - column: { name: registration_date, valueDate: '2023-08-15T00:00:00' }
+              - column: { name: tariff_id, valueNumeric: 2 }
+              - column: { name: msisdn, value: '+79111234575' }
+
+        - insert:
+            tableName: romashka_subscribers
+            columns:
+              - column: { name: balance, valueNumeric: 130.00 }
+              - column: { name: full_name, value: 'Test User 10' }
+              - column: { name: last_sync, valueDate: '2024-12-01T00:00:00' }
+              - column: { name: registration_date, valueDate: '2023-10-01T00:00:00' }
+              - column: { name: tariff_id, valueNumeric: 3 }
+              - column: { name: msisdn, value: '+79111234576' }

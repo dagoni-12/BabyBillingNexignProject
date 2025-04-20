@@ -1,0 +1,40 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-create-record-table
+      author: your_name
+      changes:
+        - createTable:
+            tableName: record
+            columns:
+              - column:
+                  name: id
+                  type: INTEGER
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: call_type
+                  type: VARCHAR(2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: caller
+                  type: VARCHAR(12)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: receiver
+                  type: VARCHAR(12)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: start_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: end_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false

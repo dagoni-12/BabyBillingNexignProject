@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/001-create-romashka-subscribers.yml
+  - include:
+      file: db/changelog/002-insert-test-subscribers.yml
+  - include:
+      file: db/changelog/003-create-romashka-calls-info.yml
