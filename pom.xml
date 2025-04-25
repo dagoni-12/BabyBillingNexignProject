@@ -16,7 +16,7 @@
   <modules>
     <module>CDRGenerator</module>
     <module>BRT</module>
-<!--    <module>HRS</module>-->
+    <module>HRS</module>
   </modules>
 
   <dependencies>
@@ -42,7 +42,6 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.38</version>
       <scope>provided</scope>
     </dependency>
 

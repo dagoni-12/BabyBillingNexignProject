@@ -14,7 +14,7 @@ public class Subscriber {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     private String msisdn;
 

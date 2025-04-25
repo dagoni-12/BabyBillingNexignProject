@@ -1,4 +1,4 @@
-package ru.anger;
+package ru.anger.BabyBilling;
 
 @SpringBootApplicaiton
 public class App 

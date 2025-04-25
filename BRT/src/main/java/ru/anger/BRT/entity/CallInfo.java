@@ -18,7 +18,7 @@ public class CallInfo {
     @Id
     @Column(name = "romashka_call_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(name = "call_type")
     private String callType;

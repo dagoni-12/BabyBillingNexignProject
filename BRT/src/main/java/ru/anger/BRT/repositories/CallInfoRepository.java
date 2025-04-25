@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import ru.anger.BRT.entity.CallInfo;
 
 @Repository
-public interface CallInfoRepository extends JpaRepository<CallInfo, Integer> {
+public interface CallInfoRepository extends JpaRepository<CallInfo, Long> {
 }

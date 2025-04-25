@@ -25,7 +25,7 @@ public class Subscriber {
     @Id
     @Column(name = "romashka_subscriber_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String msisdn;
 

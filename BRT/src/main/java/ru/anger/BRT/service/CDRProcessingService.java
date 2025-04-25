@@ -3,6 +3,7 @@ package ru.anger.BRT.service;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.anger.BRT.DTO.ChargeResultDTO;
 import ru.anger.BRT.DTO.DataForRatingDTO;
 import ru.anger.BRT.DTO.RecordDTO;
 import ru.anger.BRT.entity.CallInfo;
@@ -24,11 +25,11 @@ public class CDRProcessingService {
     private SubscriberRepository subscriberRepository;
     @Autowired
     HrsClientService hrsClientService;
+    @Autowired
+    BalanceService balanceService;
 
 
     public void processCalls(List<RecordDTO> recordDTOs) {
-        System.out.println("----------------------GOT THIS MFS----------------------");
-
         recordDTOs.forEach(record -> {
             System.out.printf("Type: %-5s | From: %-12s | To: %-12s | Start: %-20s | End: %-20s%n",
                     record.getCallType(),
@@ -44,29 +45,32 @@ public class CDRProcessingService {
         }
     }
 
-    @Transactional
     public void processCall(RecordDTO recordDTO) {
         CallInfo callInfo = RecordMapper.toEntity(recordDTO);
 
         Optional<Subscriber> callerOpt = subscriberRepository.findByMsisdn(callInfo.getCaller());
         Optional<Subscriber> receiverOpt = subscriberRepository.findByMsisdn(callInfo.getReceiver());
 
+        if (callerOpt.isEmpty() && receiverOpt.isEmpty()) {
+            return;
+        }
+
 //        Optional<Subscriber> subscriberOpt = subscriberRepository.findByMsisdn(callInfo.getCaller());
 //        if (subscriberOpt.isPresent()) {
 //            DataForRatingDTO ratingDTO = CallInfoMapper.toRatingDTO(callInfo, subscriberOpt.get());
 //            hrsClientService.sendToHrs(ratingDTO);
 //        }
-
+        callInfoRepository.save(callInfo);
         if (callerOpt.isPresent()) {
-//            System.out.println(callInfo);
-            callInfoRepository.save(callInfo);
-            DataForRatingDTO ratingDTO = CallInfoMapper.toRatingDTO(callInfo, callerOpt.get());
-//            hrsClientService.sendToHrs(ratingDTO);
-        } else if (receiverOpt.isPresent()) {
-//            System.out.println(callInfo);
-            callInfoRepository.save(callInfo);
-            DataForRatingDTO ratingDTO = CallInfoMapper.toRatingDTO(callInfo, receiverOpt.get());
-//            hrsClientService.sendToHrs(ratingDTO);
+            boolean partnerIsRomashkaSubscriber = receiverOpt.isPresent();
+            DataForRatingDTO ratingDTO = CallInfoMapper.toRatingDTO(callInfo, callerOpt.get(), partnerIsRomashkaSubscriber);
+            ChargeResultDTO result = hrsClientService.calculateCharge(ratingDTO);
+            balanceService.applyCharge(result.getMsisdn(), result.getChargeAmount());
+        } else {
+            boolean partnerIsRomashkaSubscriber = false;
+            DataForRatingDTO ratingDTO = CallInfoMapper.toRatingDTO(callInfo, receiverOpt.get(), partnerIsRomashkaSubscriber);
+            ChargeResultDTO result = hrsClientService.calculateCharge(ratingDTO);
+            balanceService.applyCharge(result.getMsisdn(), result.getChargeAmount());
         }
     }
 }

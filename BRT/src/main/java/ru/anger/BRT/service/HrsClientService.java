@@ -1,21 +1,23 @@
 package ru.anger.BRT.service;
 
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestClient;
 import ru.anger.BRT.DTO.DataForRatingDTO;
 import ru.anger.BRT.DTO.ChargeResultDTO;
 
 @Service
 public class HrsClientService {
 
-    private final RestTemplate restTemplate;
+    @Autowired
+    private RestClient restClient;
 
-    public HrsClientService(RestTemplateBuilder builder) {
-        this.restTemplate = builder.rootUri("http://localhost:8081").build();
-    }
-
-    public ChargeResultDTO sendToHrs(DataForRatingDTO ratingDTO) {
-        return restTemplate.postForObject("/api/rating/calculate", ratingDTO, ChargeResultDTO.class);
+    public ChargeResultDTO calculateCharge(DataForRatingDTO dto) {
+        System.out.println(dto);
+        return restClient.post()
+                .uri("/calculate")
+                .body(dto)
+                .retrieve()
+                .body(ChargeResultDTO.class);
     }
 }

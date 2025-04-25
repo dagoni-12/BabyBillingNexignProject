@@ -1,22 +1,20 @@
 package ru.anger.BRT.DTO;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
-
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class DataForRatingDTO {
     private String msisdn;
-    private int tariffId;
+    private boolean partnerIsRomashkaSubscriber;
     private String callType;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+    private Integer tariffId;
 }

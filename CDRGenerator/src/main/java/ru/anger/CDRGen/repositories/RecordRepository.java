@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import ru.anger.CDRGen.entity.Record;
 
 @Repository
-public interface RecordRepository extends JpaRepository<Record, Integer> {
+public interface RecordRepository extends JpaRepository<Record, Long> {
 }

@@ -7,7 +7,7 @@ import ru.anger.BRT.entity.Subscriber;
 import java.util.Optional;
 
 @Repository
-public interface SubscriberRepository extends JpaRepository<Subscriber, Integer> {
-
+public interface SubscriberRepository extends JpaRepository<Subscriber, Long> {
     Optional<Subscriber> findByMsisdn(String msisdn);
+    Boolean existsByMsisdn(String msisdn);
 }
