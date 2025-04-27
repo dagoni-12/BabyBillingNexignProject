@@ -11,7 +11,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class TariffType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,4 +18,8 @@ public class TariffType {
 
     @Column(nullable = false, length = 50)
     private String name;
+
+    public TariffType(String name) {
+        this.name = name;
+    }
 }

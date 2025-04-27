@@ -90,8 +90,8 @@ public class CdrGeneratorService {
                                       LocalDateTime startTime, LocalDateTime endTime) {
         Record record = new Record();
         record.setCallType(callType);
-        record.setCaller(caller.getMsisdn());
-        record.setReceiver(receiver.getMsisdn());
+        record.setSubscriberMsisdn(caller.getMsisdn());
+        record.setPartnerMsisdn(receiver.getMsisdn());
         record.setStartTime(startTime);
         record.setEndTime(endTime);
 

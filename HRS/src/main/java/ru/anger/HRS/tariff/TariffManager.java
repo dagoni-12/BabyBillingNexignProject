@@ -17,8 +17,8 @@ public class TariffManager {
     public TariffData loadTariffData(DataForRatingDTO dto) {
         Tariff tariff = tariffRepository.findById(dto.getTariffId())
                 .orElseThrow(() -> new RuntimeException("Tariff not found"));
-
-        return new TariffData(tariff); // вспомогательный объект с нужными полями
+        // вспомогательный объект с нужными полями
+        return new TariffData(tariff);
     }
 }
 

@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChargeResultDTO {
-    private String msisdn;
     private BigDecimal chargeAmount;
+    private Integer minutesSpent;
+    private boolean shouldUpdateLastPaymentDate;
 }

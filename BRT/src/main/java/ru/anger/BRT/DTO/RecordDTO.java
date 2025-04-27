@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class RecordDTO {
     private String callType;
-    private String caller;
-    private String receiver;
+    private String subscriberMsisdn;
+    private String partnerMsisdn;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 }

@@ -8,8 +8,8 @@ public class RecordMapper {
     public static RecordDTO toDTO(CallInfo callInfo) {
         return new RecordDTO(
                 callInfo.getCallType(),
-                callInfo.getCaller(),
-                callInfo.getReceiver(),
+                callInfo.getSubscriberMsisdn(),
+                callInfo.getPartnerMsisdn(),
                 callInfo.getStartTime(),
                 callInfo.getEndTime()
         );
@@ -18,8 +18,8 @@ public class RecordMapper {
     public static CallInfo toEntity(RecordDTO dto) {
         CallInfo callInfo = new CallInfo();
         callInfo.setCallType(dto.getCallType());
-        callInfo.setCaller(dto.getCaller());
-        callInfo.setReceiver(dto.getReceiver());
+        callInfo.setSubscriberMsisdn(dto.getSubscriberMsisdn());
+        callInfo.setPartnerMsisdn(dto.getPartnerMsisdn());
         callInfo.setStartTime(dto.getStartTime());
         callInfo.setEndTime(dto.getEndTime());
         return callInfo;

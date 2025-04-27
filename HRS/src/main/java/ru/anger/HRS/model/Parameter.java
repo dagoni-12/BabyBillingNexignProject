@@ -11,7 +11,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Parameter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,4 +23,10 @@ public class Parameter {
 
     @Column(nullable = false, length = 20)
     private String dataType;
+
+    public Parameter(String name, String unit, String dataType) {
+        this.name = name;
+        this.unit = unit;
+        this.dataType = dataType;
+    }
 }

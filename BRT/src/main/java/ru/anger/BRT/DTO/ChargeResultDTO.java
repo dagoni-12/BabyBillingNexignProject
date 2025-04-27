@@ -1,17 +1,16 @@
 package ru.anger.BRT.DTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class ChargeResultDTO {
-    private String msisdn;
     private BigDecimal chargeAmount;
+    private Integer minutesSpent;
+    private boolean shouldUpdateLastPaymentDate;
 }

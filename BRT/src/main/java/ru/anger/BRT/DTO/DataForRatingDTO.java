@@ -1,8 +1,8 @@
 package ru.anger.BRT.DTO;
 
-
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -16,5 +16,7 @@ public class DataForRatingDTO {
     private String callType;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+    private LocalDate lastPaymentDate;
     private Integer tariffId;
+    private Integer includedMinutes;
 }

@@ -1,6 +1,5 @@
 package ru.anger.BRT.service;
 
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.anger.BRT.DTO.ChargeResultDTO;
@@ -31,15 +30,14 @@ public class CDRProcessingService {
 
     public void processCalls(List<RecordDTO> recordDTOs) {
         recordDTOs.forEach(record -> {
-            System.out.printf("Type: %-5s | From: %-12s | To: %-12s | Start: %-20s | End: %-20s%n",
+            System.out.printf("Type: %-5s | Start: %-20s | End: %-20s%n | subscriber: %-12s | partner: %-12s",
                     record.getCallType(),
                     record.getStartTime(),
                     record.getEndTime(),
-                    record.getReceiver(),
-                    record.getCaller()
-                    );
+                    record.getSubscriberMsisdn(),
+                    record.getPartnerMsisdn()
+            );
         });
-        //Collections.reverse(recordDTOs);
         for (RecordDTO callDTO : recordDTOs) {
             processCall(callDTO);
         }
@@ -48,29 +46,25 @@ public class CDRProcessingService {
     public void processCall(RecordDTO recordDTO) {
         CallInfo callInfo = RecordMapper.toEntity(recordDTO);
 
-        Optional<Subscriber> callerOpt = subscriberRepository.findByMsisdn(callInfo.getCaller());
-        Optional<Subscriber> receiverOpt = subscriberRepository.findByMsisdn(callInfo.getReceiver());
-
-        if (callerOpt.isEmpty() && receiverOpt.isEmpty()) {
+        Optional<Subscriber> subscriberMsisdnOpt = subscriberRepository.findByMsisdn(callInfo.getSubscriberMsisdn());
+        Optional<Subscriber> partnerMsisdnOpt = subscriberRepository.findByMsisdn(callInfo.getPartnerMsisdn());
+        if (subscriberMsisdnOpt.isEmpty()) {
             return;
         }
 
-//        Optional<Subscriber> subscriberOpt = subscriberRepository.findByMsisdn(callInfo.getCaller());
-//        if (subscriberOpt.isPresent()) {
-//            DataForRatingDTO ratingDTO = CallInfoMapper.toRatingDTO(callInfo, subscriberOpt.get());
-//            hrsClientService.sendToHrs(ratingDTO);
-//        }
+        Subscriber subscriber = subscriberMsisdnOpt.get();
         callInfoRepository.save(callInfo);
-        if (callerOpt.isPresent()) {
-            boolean partnerIsRomashkaSubscriber = receiverOpt.isPresent();
-            DataForRatingDTO ratingDTO = CallInfoMapper.toRatingDTO(callInfo, callerOpt.get(), partnerIsRomashkaSubscriber);
-            ChargeResultDTO result = hrsClientService.calculateCharge(ratingDTO);
-            balanceService.applyCharge(result.getMsisdn(), result.getChargeAmount());
-        } else {
-            boolean partnerIsRomashkaSubscriber = false;
-            DataForRatingDTO ratingDTO = CallInfoMapper.toRatingDTO(callInfo, receiverOpt.get(), partnerIsRomashkaSubscriber);
-            ChargeResultDTO result = hrsClientService.calculateCharge(ratingDTO);
-            balanceService.applyCharge(result.getMsisdn(), result.getChargeAmount());
+
+        boolean partnerIsRomashkaSubscriber = partnerMsisdnOpt.isPresent();
+        DataForRatingDTO ratingDTO = CallInfoMapper.toRatingDTO(callInfo, subscriberMsisdnOpt.get(), partnerIsRomashkaSubscriber);
+
+        ChargeResultDTO result = hrsClientService.calculateCharge(ratingDTO);
+        balanceService.applyCharge(subscriber.getMsisdn(), result);
+
+        if (result.isShouldUpdateLastPaymentDate()) {
+            subscriber.setLastPaymentDate(callInfo.getStartTime().toLocalDate());
         }
+
+        subscriberRepository.save(subscriber);
     }
 }

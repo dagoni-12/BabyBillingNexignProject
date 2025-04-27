@@ -11,7 +11,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class CallType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,4 +21,9 @@ public class CallType {
 
     @Column(nullable = false)
     private Integer costPerMinute;
+
+    public CallType(String name, Integer costPerMinute) {
+        this.name = name;
+        this.costPerMinute = costPerMinute;
+    }
 }

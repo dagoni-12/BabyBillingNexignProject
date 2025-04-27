@@ -24,8 +24,8 @@ public class CdrSender implements MessageSender {
         cdr.forEach(record -> {
             System.out.printf("Type: %-5s | From: %-12s | To: %-12s | Start: %-20s | End: %-20s%n",
                     record.getCallType(),
-                    record.getCaller(),
-                    record.getReceiver(),
+                    record.getSubscriberMsisdn(),
+                    record.getPartnerMsisdn(),
                     record.getStartTime(),
                     record.getEndTime());
         });

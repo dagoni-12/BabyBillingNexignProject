@@ -19,12 +19,12 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: caller
+                  name: subscriber_msisdn
                   type: VARCHAR(12)
                   constraints:
                     nullable: false
               - column:
-                  name: receiver
+                  name: partner_msisdn
                   type: VARCHAR(12)
                   constraints:
                     nullable: false

@@ -1,6 +1,8 @@
 package ru.anger.BabyBilling;
 
-@SpringBootApplicaiton
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
 public class App 
 {
     public static void main( String[] args ) {

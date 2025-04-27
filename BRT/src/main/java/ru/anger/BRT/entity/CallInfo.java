@@ -23,20 +23,20 @@ public class CallInfo {
     @Column(name = "call_type")
     private String callType;
 
-    private String caller;
+    @Column(name = "subscriber_msisdn")
+    private String subscriberMsisdn;
 
-    private String receiver;
+    @Column(name = "partner_msisdn")
+    private String partnerMsisdn;
 
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime startTime;
 
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime endTime;
 
-    public CallInfo(String callType, String caller, String receiver, LocalDateTime startTime, LocalDateTime endTime) {
+    public CallInfo(String callType, String subscriberMsisdn, String partnerMsisdn, LocalDateTime startTime, LocalDateTime endTime) {
         this.callType = callType;
-        this.caller = caller;
-        this.receiver = receiver;
+        this.subscriberMsisdn = subscriberMsisdn;
+        this.partnerMsisdn = partnerMsisdn;
         this.startTime = startTime;
         this.endTime = endTime;
     }

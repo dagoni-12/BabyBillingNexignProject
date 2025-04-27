@@ -1,57 +1,58 @@
 package ru.anger.HRS.calculation;
 
 import org.springframework.stereotype.Component;
+import ru.anger.HRS.DTO.ChargeResultDTO;
 import ru.anger.HRS.DTO.DataForRatingDTO;
 import ru.anger.HRS.tariff.TariffData;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Duration;
-import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Component
 public class CalculationEngine {
 
-    public BigDecimal calculate(DataForRatingDTO dto, TariffData data) {
-        long seconds = Duration.between(dto.getStartTime(), dto.getEndTime()).getSeconds();
-        long minutes = (seconds + 59) / 60; // округление вверх
+    public ChargeResultDTO calculate(DataForRatingDTO dto, TariffData tariffData) {
+        Duration callDuration = Duration.between(dto.getStartTime(), dto.getEndTime());
+        long seconds = callDuration.getSeconds();
+        int minutesOfCall = (int) ((seconds + 59) / 60);
 
-        if (data.isMonthly()) {
-            return calculateMonthly(dto, data, minutes);
+        BigDecimal totalCharge = BigDecimal.ZERO;
+        boolean shouldUpdateLastPaymentDate = false;
+        int minutesSpent = 0;
+
+        if (tariffData.isMonthly()) {
+            // Помесячный тариф
+            long daysSinceLastPayment = ChronoUnit.DAYS.between(dto.getLastPaymentDate(), dto.getStartTime().toLocalDate());
+
+            if (daysSinceLastPayment >= 30) {
+                totalCharge = totalCharge.add(tariffData.getBaseValue());
+                shouldUpdateLastPaymentDate = true;
+            }
+
+            if (dto.getIncludedMinutes() != null && dto.getIncludedMinutes() > 0) {
+                if (dto.getIncludedMinutes() >= minutesOfCall) {
+                    minutesSpent = minutesOfCall;
+                } else {
+                    minutesSpent = dto.getIncludedMinutes();
+                    int overageMinutes = minutesOfCall - dto.getIncludedMinutes();
+                    BigDecimal overage = tariffData.getRate().multiply(BigDecimal.valueOf(overageMinutes));
+                    overage = overage.divide(new BigDecimal("0.1"), 0, RoundingMode.UP)
+                            .multiply(new BigDecimal("0.1"));
+                    totalCharge = totalCharge.add(overage);
+                }
+            }
         } else {
-            return data.getRate().multiply(BigDecimal.valueOf(minutes));
+            // Классический тариф
+            BigDecimal classicCharge = tariffData.getRate().multiply(BigDecimal.valueOf(minutesOfCall));
+            classicCharge = classicCharge.divide(new BigDecimal("0.1"), 0, RoundingMode.UP)
+                    .multiply(new BigDecimal("0.1"));
+            totalCharge = totalCharge.add(classicCharge);
         }
+
+//        System.out.println("totalCharge is " + totalCharge);
+//        System.out.println("minutespent is " + minutesSpent);
+        return new ChargeResultDTO(totalCharge, minutesSpent, shouldUpdateLastPaymentDate);
     }
-
-    public BigDecimal calculateMonthly(DataForRatingDTO dto, TariffData data, long totalUsedMinutesThisMonth) {
-        BigDecimal result = BigDecimal.ZERO;
-
-        // 1. Проверка: расчёт только если звонок в отчётном (завершённом) месяце
-        if (!data.isReportPeriod(dto.getStartTime())) {
-            return BigDecimal.ZERO; // текущий месяц — не списываем
-        }
-
-        // 2. Всегда списываем абонентскую плату
-        result = result.add(data.getBaseValue());
-
-        // 3. Считаем длительность звонка
-        long durationInSeconds = Duration.between(dto.getStartTime(), dto.getEndTime()).getSeconds();
-        long durationInMinutes = (durationInSeconds + 59) / 60;
-
-        long newTotal = totalUsedMinutesThisMonth + durationInMinutes;
-
-        // 4. Вычисляем сверхлимитные минуты
-        long overage = Math.max(0, newTotal - data.getIncludedMinutes());
-
-        if (overage > 0) {
-            BigDecimal overageCost = data.getRate().multiply(BigDecimal.valueOf(overage));
-            result = result.add(overageCost);
-        }
-
-        // 5. Округляем до 0.1 у.е.
-        return result.divide(new BigDecimal("0.1"), 0, RoundingMode.UP)
-                .multiply(new BigDecimal("0.1"));
-    }
-
 }
-

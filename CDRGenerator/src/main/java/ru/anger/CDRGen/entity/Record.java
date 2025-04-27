@@ -20,20 +20,18 @@ public class Record{
 
     private String callType;
 
-    private String caller;
+    private String subscriberMsisdn;
 
-    private String receiver;
+    private String partnerMsisdn;
 
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime startTime;
 
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime endTime;
 
-    public Record(String callType, String caller, String receiver, LocalDateTime startTime, LocalDateTime endTime) {
+    public Record(String callType, String subscriberMsisdn, String partnerMsisdn, LocalDateTime startTime, LocalDateTime endTime) {
         this.callType = callType;
-        this.caller = caller;
-        this.receiver = receiver;
+        this.subscriberMsisdn = subscriberMsisdn;
+        this.partnerMsisdn = partnerMsisdn;
         this.startTime = startTime;
         this.endTime = endTime;
     }

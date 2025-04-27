@@ -15,6 +15,7 @@ public class CallInfoMapper {
         dto.setCallType(callInfo.getCallType());
         dto.setStartTime(callInfo.getStartTime());
         dto.setEndTime(callInfo.getEndTime());
+        dto.setIncludedMinutes(subscriber.getIncludedMinutes());
         return dto;
     }
 }

@@ -13,7 +13,6 @@ public class HrsClientService {
     private RestClient restClient;
 
     public ChargeResultDTO calculateCharge(DataForRatingDTO dto) {
-        System.out.println(dto);
         return restClient.post()
                 .uri("/calculate")
                 .body(dto)
