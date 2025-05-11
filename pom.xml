@@ -17,6 +17,7 @@
     <module>CDRGenerator</module>
     <module>BRT</module>
     <module>HRS</module>
+      <module>CRM</module>
   </modules>
 
   <dependencies>

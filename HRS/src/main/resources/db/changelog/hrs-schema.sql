@@ -1,18 +1,18 @@
 -- liquibase formatted sql
--- changeset yourname:001-create-tariff_type
+-- changeset anger:001-create-tariff_type
 CREATE TABLE tariff_type (
 tariff_type_id SERIAL PRIMARY KEY,
 name VARCHAR(50) NOT NULL
 );
 
--- changeset yourname:002-create-call_type
+-- changeset anger:002-create-call_type
 CREATE TABLE call_type (
 call_type_id SERIAL PRIMARY KEY,
 name VARCHAR(50) NOT NULL,
 cost_per_minute INTEGER NOT NULL CHECK (cost_per_minute > 0)
 );
 
--- changeset yourname:003-create-parameters
+-- changeset anger:003-create-parameters
 CREATE TABLE parameters (
 parameter_id SERIAL PRIMARY KEY,
 name VARCHAR(50) NOT NULL,
