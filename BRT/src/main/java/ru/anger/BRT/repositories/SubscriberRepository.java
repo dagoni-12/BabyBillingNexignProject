@@ -15,11 +15,11 @@ public interface SubscriberRepository extends JpaRepository<Subscriber, Long> {
     Optional<Subscriber> findByMsisdn(String msisdn);
     Boolean existsByMsisdn(String msisdn);
 
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE romashka_subscribers s SET balance = :balance WHERE msisdn = :msisdn", nativeQuery = true)
-    void updateBalanceByMsisdn(String msisdn, BigDecimal balance);
+    void updateBalanceByMsisdn(@Param("msisdn") String msisdn, @Param("balance") BigDecimal balance);
 
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE romashka_subscribers s SET included_minutes = :newMinutes WHERE msisdn = :msisdn", nativeQuery = true)
-    void updateIncludedMinutesByMsisdn(String msisdn, int newMinutes);
+    void updateIncludedMinutesByMsisdn(@Param("msisdn") String msisdn, @Param("newMinutes") int newMinutes);
 }

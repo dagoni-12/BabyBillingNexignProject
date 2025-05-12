@@ -15,7 +15,7 @@ import ru.anger.HRS.tariff.TariffManager;
 import java.math.BigDecimal;
 
 @RestController
-@RequestMapping("/api/HRS")
+@RequestMapping("/api/hrs")
 public class RatingController {
 
     private final InputValidator inputValidator;
@@ -32,7 +32,6 @@ public class RatingController {
 
     @PostMapping("/calculate")
     public ResponseEntity<ChargeResultDTO> calculate(@RequestBody DataForRatingDTO dto) {
-        //inputValidator.validate(dto);
         TariffData tariffData = tariffManager.loadTariffData(dto);
         ChargeResultDTO result = calculationEngine.calculate(dto, tariffData);
         return ResponseEntity.ok(result);

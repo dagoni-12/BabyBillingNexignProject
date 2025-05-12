@@ -23,7 +23,6 @@ public class CalculationEngine {
         int minutesSpent = 0;
 
         if (tariffData.isMonthly()) {
-            // Помесячный тариф
             long daysSinceLastPayment = ChronoUnit.DAYS.between(dto.getLastPaymentDate(), dto.getStartTime().toLocalDate());
 
             if (daysSinceLastPayment >= 30) {
@@ -44,15 +43,11 @@ public class CalculationEngine {
                 }
             }
         } else {
-            // Классический тариф
             BigDecimal classicCharge = tariffData.getRate().multiply(BigDecimal.valueOf(minutesOfCall));
             classicCharge = classicCharge.divide(new BigDecimal("0.1"), 0, RoundingMode.UP)
                     .multiply(new BigDecimal("0.1"));
             totalCharge = totalCharge.add(classicCharge);
         }
-
-//        System.out.println("totalCharge is " + totalCharge);
-//        System.out.println("minutespent is " + minutesSpent);
         return new ChargeResultDTO(totalCharge, minutesSpent, shouldUpdateLastPaymentDate);
     }
 }

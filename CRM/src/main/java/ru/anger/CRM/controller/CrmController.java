@@ -14,7 +14,7 @@ public class CrmController {
     private final CrmService crmService;
 
     @PostMapping("/{manager}/{password}/register")
-    public ResponseEntity<Void> register(@PathVariable String manager,
+    public ResponseEntity<?> register(@PathVariable String manager,
                                          @PathVariable String password,
                                          @RequestBody CreateSubscriberRequest request) {
         if (!crmService.isValidManager(manager, password)) return ResponseEntity.status(403).build();
@@ -23,7 +23,7 @@ public class CrmController {
     }
 
     @PostMapping("/{manager}/{password}/change-tariff")
-    public ResponseEntity<Void> changeTariff(@PathVariable String manager,
+    public ResponseEntity<?> changeTariff(@PathVariable String manager,
                                              @PathVariable String password,
                                              @RequestBody ChangeTariffRequest request) {
         if (!crmService.isValidManager(manager, password)) return ResponseEntity.status(403).build();
@@ -46,13 +46,14 @@ public class CrmController {
                                                           @PathVariable String password,
                                                           @RequestParam String msisdn) {
         if (!crmService.isValidManager(manager, password)) return ResponseEntity.status(403).build();
-        return ResponseEntity.ok(crmService.getInfo(msisdn));
+        SubscriberInfoResponse s = crmService.getInfo(msisdn);
+        return ResponseEntity.ok(s);
     }
 
     @PostMapping("/{phone}/refill")
     public ResponseEntity<Void> userRefill(@PathVariable String phone,
-                                           @RequestBody RefillBalanceRequest request) {
-        crmService.refillBalance(phone, request.getAmount());
+                                           @RequestParam double amount) {
+        crmService.refillBalance(phone, amount);
         return ResponseEntity.ok().build();
     }
 }

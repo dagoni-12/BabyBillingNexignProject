@@ -29,15 +29,6 @@ public class CDRProcessingService {
 
 
     public void processCalls(List<RecordDTO> recordDTOs) {
-        recordDTOs.forEach(record -> {
-            System.out.printf("Type: %-5s | Start: %-20s | End: %-20s%n | subscriber: %-12s | partner: %-12s",
-                    record.getCallType(),
-                    record.getStartTime(),
-                    record.getEndTime(),
-                    record.getSubscriberMsisdn(),
-                    record.getPartnerMsisdn()
-            );
-        });
         for (RecordDTO callDTO : recordDTOs) {
             processCall(callDTO);
         }

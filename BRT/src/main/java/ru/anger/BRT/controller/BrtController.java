@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.anger.BRT.DTO.ChangeTariffRequest;
 import ru.anger.BRT.DTO.CreateSubscriberRequest;
-import ru.anger.BRT.DTO.SubscriberInfoResponse;
 import ru.anger.BRT.service.BrtService;
 
 @RestController
@@ -22,21 +21,19 @@ public class BrtController {
     }
 
     @PostMapping("/change-tariff")
-    public ResponseEntity<Void> changeTariff(@RequestBody ChangeTariffRequest dto) {
-        service.changeTariff(dto);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> changeTariff(@RequestBody ChangeTariffRequest dto) {
+        return service.changeTariff(dto);
     }
 
     @PostMapping("/refill")
-    public ResponseEntity<Void> refill(@RequestParam String msisdn,
-                                       @RequestParam double amount) {
-        service.refillBalance(msisdn, amount);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> refill(@RequestParam String msisdn,
+                                    @RequestParam double amount) {
+        return service.refillBalance(msisdn, amount);
     }
 
     @GetMapping("/info")
-    public ResponseEntity<SubscriberInfoResponse> info(@RequestParam String msisdn) {
-        return ResponseEntity.ok(service.getInfo(msisdn));
+    public ResponseEntity<?> info(@RequestParam String msisdn) {
+        return service.getInfo(msisdn);
     }
 }
 

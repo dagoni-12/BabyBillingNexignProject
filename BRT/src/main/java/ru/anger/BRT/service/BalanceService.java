@@ -24,14 +24,14 @@ public class BalanceService {
 
         BigDecimal newBalance = subscriber.getBalance().subtract(result.getChargeAmount());
 
-        System.out.println("new balance " + newBalance);
-        System.out.println("msisdn " + msisdn);
         subscriber.setBalance(newBalance);
         subscriberRepository.updateBalanceByMsisdn(subscriber.getMsisdn(), newBalance);
 
+        if (subscriber.getIncludedMinutes() == null) {
+            subscriber.setIncludedMinutes(0);
+        }
         int newMinutes = Math.max(0, subscriber.getIncludedMinutes() - result.getMinutesSpent());
         subscriber.setIncludedMinutes(Math.max(0, newMinutes));
         subscriberRepository.updateIncludedMinutesByMsisdn(subscriber.getMsisdn(), newMinutes);
-        //subscriberRepository.save(subscriber);
     }
 }
